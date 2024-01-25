@@ -37,6 +37,20 @@ const History = () => {
                                     date={item.date}
                                     description={item.description}
                                     type={item.type}
+                                    transactionID={item.transactionID}
+                                    onNavigate={() =>
+                                        navigation.navigate("Home", {
+                                            screen: "TransactionDetailScreen",
+                                            params: {
+                                                amount: item.amount,
+                                                date: item.date,
+                                                description: item.description,
+                                                type: item.type,
+                                                transactionID:
+                                                    item.transactionID,
+                                            },
+                                        })
+                                    }
                                 />
                             )}
                         />
@@ -50,7 +64,6 @@ const History = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: pageSize.padding,
     },
     wrapper: {
         flex: 1,

@@ -3,5 +3,7 @@ export const color = {
     textColor: '#FBFAF8',
     primaryColor: '#777D72', //70%
     secondaryColor: '#E7DECD', //20%
-    tertiaryColor: '#02C3BD' //10%
+    tertiaryColor: '#02C3BD', //10%
+    successColor: '#57E782',
+    failureColor: '#E85858'
 }

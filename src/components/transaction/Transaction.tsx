@@ -3,15 +3,23 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { fonts, transactionComponent } from "../../utils/dimensions";
 import { color } from "../../color/color";
 
-type TransactionProps = {
+export type TransactionProps = {
     amount: number;
     date: string;
     description: string;
     type: "Credit" | "Debit";
+    onNavigate?: () => void;
+    transactionID: string;
 };
-const Transaction = ({ amount, date, description, type }: TransactionProps) => {
+const Transaction = ({
+    amount,
+    date,
+    description,
+    type,
+    onNavigate,
+}: TransactionProps) => {
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onNavigate}>
             <View style={styles.container}>
                 <View style={styles.left}>
                     <Text style={styles.normalText}>{description}</Text>
