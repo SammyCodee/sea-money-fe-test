@@ -19,11 +19,17 @@ export const pageSize = {
 export const fonts = {
     h1: width > 320 ? 24 : 20,
     h2: width > 320 ? 18 : 16,
-    h3: width > 320 ? 12 : 14
+    h3: width > 320 ? 12 : 14,
 }
 
 export const transactionComponent = {
     height: width <= 320 ? 50 : width <= 720 ? 70 : 90,
     borderRadius: width <= 320 ? 5 : width <= 720 ? 10 : 15,
     padding: width <= 320 ? 5 : width <= 720 ? 10 : 15,
+}
+
+export const iconButton = {
+    height: width <= 320 ? 40 : width <= 720 ? 50 : 60,
+    width: width <= 320 ? 40 : width <= 720 ? 50 : 60,
+    borderRadius: width <= 320 ? 50 : width <= 720 ? 100 : 150,
 }

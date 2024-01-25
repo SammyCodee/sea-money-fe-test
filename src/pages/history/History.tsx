@@ -1,11 +1,12 @@
 import React from "react";
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { fonts, pageSize } from "../../utils/dimensions";
+import { fonts, pageSize, transactionComponent } from "../../utils/dimensions";
 import BackButton from "../../components/button/BackButton";
 import { useAppNavigation } from "../../utils/useAppNavigation";
 import { color } from "../../color/color";
 import { transactionList } from "../../constants";
 import Transaction from "../../components/transaction/Transaction";
+import IconButton from "../../components/button/IconButton";
 
 const History = () => {
     const navigation = useAppNavigation();
@@ -17,17 +18,16 @@ const History = () => {
                 </View>
                 <View style={styles.body}>
                     <View style={styles.bodyTop}>
-                        <View style={styles.bodyTopLeft}>
-                            <Text style={styles.semiBoldText}>Balance</Text>
-                            <Text style={styles.balanceText}>RM345341.86</Text>
-                            <Text style={styles.normalText}>
-                                8812530-76-768
-                            </Text>
-                        </View>
-                        <View style={styles.bodyTopRight}></View>
+                        <Text style={styles.semiBoldText}>Balance</Text>
+                        <Text style={styles.balanceText}>RM345341.86</Text>
+                        <Text style={styles.normalText}>8812530-76-768</Text>
+                    </View>
+                    <View style={styles.bodyMiddle}>
+                        <IconButton text={"Add"} />
+                        <IconButton text={"Send"} />
                     </View>
                     <View style={styles.bodyBottom}>
-                        <Text style={styles.semiBoldText}>Transactions</Text>
+                        <Text style={styles.transactiontext}>Transactions</Text>
                         <FlatList
                             style={styles.flatListContainer}
                             data={transactionList}
@@ -69,16 +69,19 @@ const styles = StyleSheet.create({
     },
     bodyTop: {
         flex: 1,
-        flexDirection: "row",
-    },
-    bodyTopLeft: {
-        flex: 1,
+        justifyContent: "center",
     },
     balanceText: {
         fontSize: fonts.h1,
         fontWeight: "bold",
         color: color.textColor,
         marginVertical: "3%",
+    },
+    transactiontext: {
+        fontSize: fonts.h2,
+        color: color.textColor,
+        fontWeight: "bold",
+        marginTop: "5%",
     },
     semiBoldText: {
         fontSize: fonts.h2,
@@ -89,9 +92,13 @@ const styles = StyleSheet.create({
         fontSize: fonts.h3,
         color: color.textColor,
     },
-    bodyTopRight: {
+    bodyMiddle: {
         flex: 1,
-        backgroundColor: "purple",
+        justifyContent: "space-evenly",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        backgroundColor: color.primaryColor,
+        borderRadius: transactionComponent.borderRadius,
     },
     bodyBottom: {
         flex: 3,
