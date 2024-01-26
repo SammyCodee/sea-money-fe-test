@@ -18,6 +18,7 @@ import { useAppNavigation } from "../../utils/useAppNavigation";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HomeScreenStackingList } from "../../navigation/navigation";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { useAppSelector } from "../../redux/hooks";
 
 type DetailProps = NativeStackScreenProps<
     HomeScreenStackingList,
@@ -27,6 +28,8 @@ type DetailProps = NativeStackScreenProps<
 const Detail = ({ route }: DetailProps) => {
     const navigation = useAppNavigation();
     const { params } = route;
+
+    const { isAuthenticate } = useAppSelector((state) => state.authSlice);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -38,7 +41,10 @@ const Detail = ({ route }: DetailProps) => {
                 <View style={styles.body}>
                     <View style={styles.bodyTop}>
                         <Text style={styles.amountText}>
-                            -RM{params.amount.toFixed(2)}
+                            -RM
+                            {isAuthenticate
+                                ? `${params.amount.toFixed(2)}`
+                                : "****"}
                         </Text>
                     </View>
 
@@ -46,7 +52,7 @@ const Detail = ({ route }: DetailProps) => {
                         <Text style={styles.semiBoldText}>
                             Payment to{" "}
                             <Text style={styles.recipientText}>
-                                {params.recipient}
+                                {isAuthenticate ? params.recipient : "****"}
                             </Text>{" "}
                             is{" "}
                             <Text style={styles.successText}>successful</Text>
@@ -66,7 +72,7 @@ const Detail = ({ route }: DetailProps) => {
                         <Text style={styles.normalText}>Transaction ID</Text>
                         <View style={styles.blankSpace} />
                         <Text style={styles.semiBoldText}>
-                            {params.transactionID}
+                            {isAuthenticate ? params.transactionID : "****"}
                         </Text>
                     </View>
 

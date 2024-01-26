@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { fonts, transactionComponent } from "../../utils/dimensions";
 import { color } from "../../color/color";
+import { useAppSelector } from "../../redux/hooks";
 
 export type TransactionProps = {
     amount: number;
@@ -19,6 +20,7 @@ const Transaction = ({
     type,
     onNavigate,
 }: TransactionProps) => {
+    const { isAuthenticate } = useAppSelector((state) => state.authSlice);
     return (
         <TouchableOpacity onPress={onNavigate}>
             <View style={styles.container}>
@@ -30,7 +32,7 @@ const Transaction = ({
                 </View>
                 <View style={styles.right}>
                     <Text style={styles.amountText} numberOfLines={1}>
-                        RM{amount.toFixed(2)}
+                        {isAuthenticate ? `RM${amount.toFixed(2)}` : "RM ****"}
                     </Text>
                     <Text style={styles.typeText}>{type}</Text>
                 </View>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     FlatList,
     RefreshControl,
@@ -20,11 +20,44 @@ import { transactionList } from "../../constants";
 import Transaction from "../../components/transaction/Transaction";
 import IconButton from "../../components/button/IconButton";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import ReactNativeBiometrics, { BiometryTypes } from "react-native-biometrics";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import {
+    Login,
+    authenticate,
+    authSelector,
+} from "../../redux/features/auth/authSlice";
 
 const History = () => {
     const navigation = useAppNavigation();
 
+    const dispatch = useAppDispatch();
+
+    const authUser = useAppSelector(authSelector);
+
+    const [users, setUsers] = useState<Login>();
     const [isRefreshing, setIsRefreshing] = useState(false);
+
+    useEffect(() => {
+        setUsers(authUser);
+        return () => {
+            console.log("component unmounting...");
+        };
+    }, [authUser]);
+
+    const login = () => {
+        const loginInfo = {
+            loading: false,
+            userInfo: {},
+            userToken: null,
+            error: null,
+            success: false,
+            isAuthenticate: true,
+        };
+        dispatch(authenticate(loginInfo));
+    };
+
+    console.log("users", users);
 
     const onRefresh = () => {
         setIsRefreshing(true);
@@ -33,17 +66,28 @@ const History = () => {
             setIsRefreshing(false);
         }, 2000);
     };
+
     return (
         <View style={styles.container}>
             <View style={styles.wrapper}>
                 <View style={styles.header}>
                     <BackButton handleOnPress={() => navigation.goBack()} />
+                    <TouchableOpacity>
+                        <Text
+                            style={styles.semiBoldText}
+                            onPress={() => login()}
+                        >
+                            Login
+                        </Text>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.body}>
                     <View style={styles.bodyTop}>
                         <Text style={styles.semiBoldText}>Balance</Text>
-                        <Text style={styles.balanceText}>RM345341.86</Text>
+                        <Text style={styles.balanceText}>
+                            RM {users?.isAuthenticate ? "345341.86" : "****"}
+                        </Text>
                         <View style={styles.accountNoContainer}>
                             <Text style={styles.normalText}>
                                 8812530-76-768
@@ -138,7 +182,9 @@ const styles = StyleSheet.create({
     header: {
         width: "100%",
         flex: pageSize.header,
-        justifyContent: "center",
+        alignItems: "center",
+        justifyContent: "space-between",
+        flexDirection: "row",
     },
     body: {
         width: "100%",
