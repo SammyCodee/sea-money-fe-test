@@ -13,12 +13,12 @@ import {
     transactionComponent,
 } from "../../utils/dimensions";
 import { color } from "../../color/color";
-import BackButton from "../../components/button/BackButton";
 import { useAppNavigation } from "../../utils/useAppNavigation";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HomeScreenStackingList } from "../../navigation/navigation";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useAppSelector } from "../../redux/hooks";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import BackButton from "../../components/button/BackButton";
 
 type DetailProps = NativeStackScreenProps<
     HomeScreenStackingList,

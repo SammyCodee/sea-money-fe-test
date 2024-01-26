@@ -159,6 +159,4 @@ export const transactionList = [
         transactionID: 'hgdg98sm-09-etwy2',
         recipient: 'Aroi Thai Bnagsar'
     },
-
-
 ]

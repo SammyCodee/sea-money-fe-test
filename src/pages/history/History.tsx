@@ -13,20 +13,20 @@ import {
     pageSize,
     transactionComponent,
 } from "../../utils/dimensions";
-import BackButton from "../../components/button/BackButton";
-import { useAppNavigation } from "../../utils/useAppNavigation";
-import { color } from "../../color/color";
-import { transactionList } from "../../constants";
-import Transaction from "../../components/transaction/Transaction";
-import IconButton from "../../components/button/IconButton";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import ReactNativeBiometrics, { BiometryTypes } from "react-native-biometrics";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
     Login,
     authenticate,
     authSelector,
 } from "../../redux/features/auth/authSlice";
+import { useAppNavigation } from "../../utils/useAppNavigation";
+import { color } from "../../color/color";
+import { transactionList } from "../../constants";
+import Transaction from "../../components/transaction/Transaction";
+import IconButton from "../../components/button/IconButton";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import BackButton from "../../components/button/BackButton";
+import ReactNativeBiometrics, { BiometryTypes } from "react-native-biometrics";
 
 const History = () => {
     const navigation = useAppNavigation();
@@ -35,11 +35,11 @@ const History = () => {
 
     const authUser = useAppSelector(authSelector);
 
-    const [users, setUsers] = useState<Login>();
+    const [user, setUser] = useState<Login>();
     const [isRefreshing, setIsRefreshing] = useState(false);
 
     useEffect(() => {
-        setUsers(authUser);
+        setUser(authUser);
         return () => {
             console.log("component unmounting...");
         };
@@ -57,7 +57,7 @@ const History = () => {
         dispatch(authenticate(loginInfo));
     };
 
-    console.log("users", users);
+    console.log("users", user);
 
     const onRefresh = () => {
         setIsRefreshing(true);
@@ -86,11 +86,12 @@ const History = () => {
                     <View style={styles.bodyTop}>
                         <Text style={styles.semiBoldText}>Balance</Text>
                         <Text style={styles.balanceText}>
-                            RM {users?.isAuthenticate ? "345341.86" : "****"}
+                            RM {user?.isAuthenticate ? "345341.86" : "****"}
                         </Text>
                         <View style={styles.accountNoContainer}>
                             <Text style={styles.normalText}>
-                                8812530-76-768
+                                8812530-76-
+                                {user?.isAuthenticate ? "7688" : "****"}
                             </Text>
 
                             <TouchableOpacity>

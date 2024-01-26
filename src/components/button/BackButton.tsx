@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { color } from "../../color/color";
-import { fonts, iconButton, iconSize } from "../../utils/dimensions";
+import { iconButton, iconSize } from "../../utils/dimensions";
 
 type BackButtonProps = {
     handleOnPress: () => void;
