@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     FlatList,
+    RefreshControl,
     SafeAreaView,
     StyleSheet,
     Text,
@@ -24,6 +25,15 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 const History = () => {
     const navigation = useAppNavigation();
 
+    const [isRefreshing, setIsRefreshing] = useState(false);
+
+    const onRefresh = () => {
+        setIsRefreshing(true);
+
+        setTimeout(() => {
+            setIsRefreshing(false);
+        }, 2000);
+    };
     return (
         <View style={styles.container}>
             <View style={styles.wrapper}>
@@ -76,6 +86,14 @@ const History = () => {
                         <FlatList
                             style={styles.flatListContainer}
                             data={transactionList}
+                            refreshControl={
+                                <RefreshControl
+                                    tintColor={color.textColor} //for iOS only
+                                    // colors={[]} for android only
+                                    onRefresh={onRefresh}
+                                    refreshing={isRefreshing}
+                                />
+                            }
                             renderItem={({ item }) => (
                                 <Transaction
                                     amount={item.amount}
