@@ -27,40 +27,20 @@ import Transaction from "../../components/transaction/Transaction";
 import IconButton from "../../components/button/IconButton";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import BackButton from "../../components/button/BackButton";
-import ReactNativeBiometrics, { BiometryTypes } from "react-native-biometrics";
 import TouchID from "react-native-touch-id";
 import Error from "../../components/error/Error";
 
 const History = () => {
     const navigation = useAppNavigation();
 
+    /**
+     * redux
+     */
     const dispatch = useAppDispatch();
-
     const authUser = useAppSelector(authSelector);
 
     const [user, setUser] = useState<Login>();
     const [isRefreshing, setIsRefreshing] = useState(false);
-
-    const optionalConfigObject = {
-        unifiedErrors: false, // use unified error messages (default false)
-        passcodeFallback: true, // if true is passed, itwill allow isSupported to return an error if the device is not enrolled in touch id/face id etc. Otherwise, it will just tell you what method is supported, even if the user is not enrolled.  (default false)
-    };
-
-    const handleAuth = () => {
-        TouchID.isSupported(optionalConfigObject)
-            .then((biometryType) => {
-                // Success code
-                if (biometryType === "FaceID") {
-                    console.log("FaceID is supported.");
-                } else {
-                    console.log("TouchID is supported.");
-                }
-            })
-            .catch((error) => {
-                // Failure code
-                console.log(error);
-            });
-    };
 
     useEffect(() => {
         setUser(authUser);
@@ -69,19 +49,41 @@ const History = () => {
         };
     }, [authUser]);
 
+    const optionalConfigObject = {
+        title: "Please Authenticate", // Android
+        imageColor: "#000", // Android
+        imageErrorColor: "#ff0000", // Android
+        sensorDescription: "Slightly Touch sensor", // Android
+        sensorErrorDescription: "Failed", // Android
+        cancelText: "Cancel", // Android
+        fallbackLabel: "Show Passcode", // iOS (if empty, then label is hidden)
+        unifiedErrors: false, // use unified error messages (default false)
+        passcodeFallback: false, // iOS
+    };
+
     const login = () => {
-        TouchID.isSupported()
-            .then((biometryType) => {
-                console.log("enter biometry");
-                if (biometryType === "FaceID") {
-                    console.log("support FACEID");
-                } else if (biometryType === "TouchID") {
-                    console.log("support TouchID");
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        TouchID.isSupported().then((biometryType) => {
+            if (biometryType === "FaceID") {
+                TouchID.authenticate("", optionalConfigObject)
+                    .then((success: any) => {
+                        /**
+                         * once success login, perform the dispatch(authenticate) here
+                         */
+                        console.log("success");
+                    })
+                    .catch((error: any) => {
+                        Alert.alert("Authentication Failed", error.message);
+                    });
+            } else {
+                TouchID.authenticate("", optionalConfigObject)
+                    .then((success: any) => {
+                        console.log("success");
+                    })
+                    .catch((error: any) => {
+                        Alert.alert("Authentication Failed", error.message);
+                    });
+            }
+        });
 
         const loginInfo = {
             loading: false,
@@ -90,10 +92,9 @@ const History = () => {
             isSuccess: true,
             isAuthenticate: true,
         };
+
         dispatch(authenticate(loginInfo));
     };
-
-    // console.log("users", user);
 
     const onRefresh = () => {
         setIsRefreshing(true);
@@ -103,6 +104,7 @@ const History = () => {
         }, 2000);
     };
 
+    useEffect(() => {}, []);
     return (
         <View style={styles.container}>
             <View style={styles.wrapper}>
