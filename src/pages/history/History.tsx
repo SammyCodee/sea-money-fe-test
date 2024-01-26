@@ -180,31 +180,38 @@ const History = () => {
                                         refreshing={isRefreshing}
                                     />
                                 }
-                                renderItem={({ item }) => (
-                                    <Transaction
-                                        amount={item.amount}
-                                        date={item.date}
-                                        description={item.description}
-                                        type={item.type}
-                                        transactionID={item.transactionID}
-                                        recipient={item.recipient}
-                                        onNavigate={() =>
-                                            navigation.navigate("Home", {
-                                                screen: "TransactionDetailScreen",
-                                                params: {
-                                                    amount: item.amount,
-                                                    date: item.date,
-                                                    description:
-                                                        item.description,
-                                                    type: item.type,
-                                                    transactionID:
-                                                        item.transactionID,
-                                                    recipient: item.recipient,
-                                                },
-                                            })
-                                        }
-                                    />
-                                )}
+                                renderItem={({ item }) => {
+                                    return (
+                                        <Transaction
+                                            amount={item.amount}
+                                            date={item.date}
+                                            description={item.description}
+                                            type={
+                                                item.type as "Debit" | "Credit"
+                                            }
+                                            transactionID={item.transactionID}
+                                            recipient={item.recipient}
+                                            onNavigate={() =>
+                                                navigation.navigate("Home", {
+                                                    screen: "TransactionDetailScreen",
+                                                    params: {
+                                                        amount: item.amount,
+                                                        date: item.date,
+                                                        description:
+                                                            item.description,
+                                                        type: item.type as
+                                                            | "Debit"
+                                                            | "Credit",
+                                                        transactionID:
+                                                            item.transactionID,
+                                                        recipient:
+                                                            item.recipient,
+                                                    },
+                                                })
+                                            }
+                                        />
+                                    );
+                                }}
                             />
                         ) : (
                             <Error text="Network Error" />
