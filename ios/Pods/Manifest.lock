@@ -1124,6 +1124,8 @@ PODS:
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
   - SocketRocket (0.6.1)
+  - TouchID (4.4.1):
+    - React
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -1203,6 +1205,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - TouchID (from `../node_modules/react-native-touch-id`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1325,6 +1328,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
+  TouchID:
+    :path: "../node_modules/react-native-touch-id"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -1393,6 +1398,7 @@ SPEC CHECKSUMS:
   RNScreens: b582cb834dc4133307562e930e8fa914b8c04ef2
   RNVectorIcons: 210f910e834e3485af40693ad4615c1ec22fc02b
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
+  TouchID: ba4c656d849cceabc2e4eef722dea5e55959ecf4
   Yoga: 13c8ef87792450193e117976337b8527b49e8c03
 
 PODFILE CHECKSUM: c10375f542c1c2be0cf898957fccf8dae40dce16

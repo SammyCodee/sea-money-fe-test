@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+    Alert,
     FlatList,
     RefreshControl,
     StyleSheet,
@@ -27,6 +28,7 @@ import IconButton from "../../components/button/IconButton";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import BackButton from "../../components/button/BackButton";
 import ReactNativeBiometrics, { BiometryTypes } from "react-native-biometrics";
+import TouchID from "react-native-touch-id";
 import Error from "../../components/error/Error";
 
 const History = () => {
@@ -39,6 +41,27 @@ const History = () => {
     const [user, setUser] = useState<Login>();
     const [isRefreshing, setIsRefreshing] = useState(false);
 
+    const optionalConfigObject = {
+        unifiedErrors: false, // use unified error messages (default false)
+        passcodeFallback: true, // if true is passed, itwill allow isSupported to return an error if the device is not enrolled in touch id/face id etc. Otherwise, it will just tell you what method is supported, even if the user is not enrolled.  (default false)
+    };
+
+    const handleAuth = () => {
+        TouchID.isSupported(optionalConfigObject)
+            .then((biometryType) => {
+                // Success code
+                if (biometryType === "FaceID") {
+                    console.log("FaceID is supported.");
+                } else {
+                    console.log("TouchID is supported.");
+                }
+            })
+            .catch((error) => {
+                // Failure code
+                console.log(error);
+            });
+    };
+
     useEffect(() => {
         setUser(authUser);
         return () => {
@@ -47,6 +70,19 @@ const History = () => {
     }, [authUser]);
 
     const login = () => {
+        TouchID.isSupported()
+            .then((biometryType) => {
+                console.log("enter biometry");
+                if (biometryType === "FaceID") {
+                    console.log("support FACEID");
+                } else if (biometryType === "TouchID") {
+                    console.log("support TouchID");
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
         const loginInfo = {
             loading: false,
             userInfo: {},
@@ -57,7 +93,7 @@ const History = () => {
         dispatch(authenticate(loginInfo));
     };
 
-    console.log("users", user);
+    // console.log("users", user);
 
     const onRefresh = () => {
         setIsRefreshing(true);
@@ -116,6 +152,9 @@ const History = () => {
                     </View>
                     <View style={styles.bodyBottom}>
                         <View style={styles.transactionTitleHeader}>
+                            <Text style={styles.transactiontext}>
+                                Transactions
+                            </Text>
                             <TouchableOpacity>
                                 <MaterialIcons
                                     name="filter-alt"
@@ -125,10 +164,6 @@ const History = () => {
                                     }}
                                 />
                             </TouchableOpacity>
-
-                            <Text style={styles.transactiontext}>
-                                Transactions
-                            </Text>
                         </View>
 
                         {user?.isSuccess ? (
