@@ -38,13 +38,17 @@ const Detail = ({ route }: DetailProps) => {
                 <View style={styles.body}>
                     <View style={styles.bodyTop}>
                         <Text style={styles.amountText}>
-                            -RM{parseFloat(params.amount.toFixed(2))}
+                            -RM{params.amount.toFixed(2)}
                         </Text>
                     </View>
 
                     <View style={styles.bodyInfo}>
                         <Text style={styles.semiBoldText}>
-                            Payment to {params.description} is{" "}
+                            Payment to{" "}
+                            <Text style={styles.recipientText}>
+                                {params.recipient}
+                            </Text>{" "}
+                            is{" "}
                             <Text style={styles.successText}>successful</Text>
                         </Text>
                         <View style={styles.dateContainer}>
@@ -124,6 +128,11 @@ const styles = StyleSheet.create({
         fontSize: fonts.h2,
         color: color.textColor,
     },
+    recipientText: {
+        fontSize: fonts.h2,
+        color: color.textColor,
+        fontWeight: "bold",
+    },
     dateContainer: {
         marginVertical: "5%",
     },
@@ -133,7 +142,6 @@ const styles = StyleSheet.create({
     },
     successText: {
         fontSize: fonts.h2,
-        fontWeight: "bold",
         color: color.successColor,
     },
     blockContainer: {

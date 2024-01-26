@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
     FlatList,
     RefreshControl,
-    SafeAreaView,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -40,6 +39,7 @@ const History = () => {
                 <View style={styles.header}>
                     <BackButton handleOnPress={() => navigation.goBack()} />
                 </View>
+
                 <View style={styles.body}>
                     <View style={styles.bodyTop}>
                         <Text style={styles.semiBoldText}>Balance</Text>
@@ -101,6 +101,7 @@ const History = () => {
                                     description={item.description}
                                     type={item.type}
                                     transactionID={item.transactionID}
+                                    recipient={item.recipient}
                                     onNavigate={() =>
                                         navigation.navigate("Home", {
                                             screen: "TransactionDetailScreen",
@@ -111,6 +112,7 @@ const History = () => {
                                                 type: item.type,
                                                 transactionID:
                                                     item.transactionID,
+                                                recipient: item.recipient,
                                             },
                                         })
                                     }

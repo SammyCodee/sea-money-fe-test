@@ -10,6 +10,7 @@ export type TransactionProps = {
     type: "Credit" | "Debit";
     onNavigate?: () => void;
     transactionID: string;
+    recipient: string;
 };
 const Transaction = ({
     amount,
@@ -22,14 +23,16 @@ const Transaction = ({
         <TouchableOpacity onPress={onNavigate}>
             <View style={styles.container}>
                 <View style={styles.left}>
-                    <Text style={styles.normalText}>{description}</Text>
+                    <Text style={styles.normalText} numberOfLines={1}>
+                        {description}
+                    </Text>
                     <Text style={styles.normalText}>{date}</Text>
                 </View>
                 <View style={styles.right}>
-                    <Text style={styles.amountText}>
-                        RM{parseFloat(amount.toFixed(2))}
+                    <Text style={styles.amountText} numberOfLines={1}>
+                        RM{amount.toFixed(2)}
                     </Text>
-                    <Text style={styles.normalText}>{type}</Text>
+                    <Text style={styles.typeText}>{type}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -47,7 +50,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         padding: transactionComponent.padding,
     },
-    left: { flex: 3, justifyContent: "center" },
+    left: { flex: 1, justifyContent: "center" },
     right: { flex: 1, justifyContent: "center" },
     normalText: {
         fontSize: fonts.h3,
@@ -58,6 +61,12 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: color.textColor,
         marginVertical: "3%",
+        textAlign: "right",
+    },
+    typeText: {
+        fontSize: fonts.h3,
+        color: color.textColor,
+        textAlign: "right",
     },
 });
 export default Transaction;
