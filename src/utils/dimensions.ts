@@ -26,10 +26,16 @@ export const transactionComponent = {
     height: width <= 320 ? 50 : width <= 720 ? 70 : 90,
     borderRadius: width <= 320 ? 5 : width <= 720 ? 10 : 15,
     padding: width <= 320 ? 5 : width <= 720 ? 10 : 15,
+    headerHeight: width <= 320 ? 25 : width <= 720 ? 35 : 45,
 }
 
 export const iconButton = {
     height: width <= 320 ? 40 : width <= 720 ? 50 : 60,
     width: width <= 320 ? 40 : width <= 720 ? 50 : 60,
     borderRadius: width <= 320 ? 50 : width <= 720 ? 100 : 150,
+}
+
+export const iconSize = {
+    s_fontSize: width <= 320 ? 12 : width <= 720 ? 20 : 28,
+    fontSize: width <= 320 ? 16 : width <= 720 ? 24 : 32,
 }

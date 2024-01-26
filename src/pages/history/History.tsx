@@ -1,17 +1,31 @@
 import React from "react";
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { fonts, pageSize, transactionComponent } from "../../utils/dimensions";
+import {
+    FlatList,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
+import {
+    fonts,
+    iconSize,
+    pageSize,
+    transactionComponent,
+} from "../../utils/dimensions";
 import BackButton from "../../components/button/BackButton";
 import { useAppNavigation } from "../../utils/useAppNavigation";
 import { color } from "../../color/color";
 import { transactionList } from "../../constants";
 import Transaction from "../../components/transaction/Transaction";
 import IconButton from "../../components/button/IconButton";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const History = () => {
     const navigation = useAppNavigation();
+
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <View style={styles.wrapper}>
                 <View style={styles.header}>
                     <BackButton handleOnPress={() => navigation.goBack()} />
@@ -20,14 +34,45 @@ const History = () => {
                     <View style={styles.bodyTop}>
                         <Text style={styles.semiBoldText}>Balance</Text>
                         <Text style={styles.balanceText}>RM345341.86</Text>
-                        <Text style={styles.normalText}>8812530-76-768</Text>
+                        <View style={styles.accountNoContainer}>
+                            <Text style={styles.normalText}>
+                                8812530-76-768
+                            </Text>
+
+                            <TouchableOpacity>
+                                <MaterialIcons
+                                    name="content-copy"
+                                    style={{
+                                        fontSize: iconSize.s_fontSize,
+                                        color: color.tertiaryColor,
+                                        marginHorizontal: "10%",
+                                    }}
+                                />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                     <View style={styles.bodyMiddle}>
-                        <IconButton text={"Add"} />
-                        <IconButton text={"Send"} />
+                        <IconButton text={"Add"} name={"add"} />
+                        <IconButton text={"Send"} name={"send"} />
+                        <IconButton text={"More"} name={"more-horiz"} />
                     </View>
                     <View style={styles.bodyBottom}>
-                        <Text style={styles.transactiontext}>Transactions</Text>
+                        <View style={styles.transactionTitleHeader}>
+                            <Text style={styles.transactiontext}>
+                                Transactions
+                            </Text>
+
+                            <TouchableOpacity>
+                                <MaterialIcons
+                                    name="filter-alt"
+                                    style={{
+                                        fontSize: iconSize.fontSize,
+                                        color: color.tertiaryColor,
+                                    }}
+                                />
+                            </TouchableOpacity>
+                        </View>
+
                         <FlatList
                             style={styles.flatListContainer}
                             data={transactionList}
@@ -57,7 +102,7 @@ const History = () => {
                     </View>
                 </View>
             </View>
-        </SafeAreaView>
+        </View>
     );
 };
 
@@ -73,7 +118,6 @@ const styles = StyleSheet.create({
     header: {
         width: "100%",
         flex: pageSize.header,
-        backgroundColor: "red",
         justifyContent: "center",
     },
     body: {
@@ -90,11 +134,14 @@ const styles = StyleSheet.create({
         color: color.textColor,
         marginVertical: "3%",
     },
+    accountNoContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
     transactiontext: {
         fontSize: fonts.h2,
         color: color.textColor,
         fontWeight: "bold",
-        marginTop: "5%",
     },
     semiBoldText: {
         fontSize: fonts.h2,
@@ -115,6 +162,14 @@ const styles = StyleSheet.create({
     },
     bodyBottom: {
         flex: 3,
+    },
+    transactionTitleHeader: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "100%",
+        height: transactionComponent.headerHeight,
+        marginTop: "5%",
     },
     flatListContainer: {
         marginTop: "5%",

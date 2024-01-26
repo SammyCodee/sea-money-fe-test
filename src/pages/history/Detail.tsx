@@ -1,11 +1,23 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { fonts, pageSize, transactionComponent } from "../../utils/dimensions";
+import {
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
+import {
+    fonts,
+    iconSize,
+    pageSize,
+    transactionComponent,
+} from "../../utils/dimensions";
 import { color } from "../../color/color";
 import BackButton from "../../components/button/BackButton";
 import { useAppNavigation } from "../../utils/useAppNavigation";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { HomeScreenStackingList } from "../../navigation/navigation";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 type DetailProps = NativeStackScreenProps<
     HomeScreenStackingList,
@@ -54,16 +66,22 @@ const Detail = ({ route }: DetailProps) => {
                         </Text>
                     </View>
 
-                    <View style={styles.reportIssueContainer}>
+                    <TouchableOpacity style={styles.reportIssueContainer}>
                         <View style={styles.reportIssueTextContainer}>
                             <Text style={styles.semiBoldText}>
                                 Report an issue
                             </Text>
                         </View>
                         <View style={styles.iconButtonContainer}>
-                            <Text>go</Text>
+                            <MaterialIcons
+                                name="arrow-forward-ios"
+                                style={{
+                                    fontSize: iconSize.fontSize,
+                                    color: color.textColor,
+                                }}
+                            />
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 </View>
             </View>
         </SafeAreaView>
@@ -82,7 +100,6 @@ const styles = StyleSheet.create({
     header: {
         width: "100%",
         flex: pageSize.header,
-        backgroundColor: "red",
         justifyContent: "center",
     },
     body: {
@@ -91,7 +108,7 @@ const styles = StyleSheet.create({
         marginVertical: "5%",
     },
     bodyTop: {
-        marginVertical: "5%",
+        marginVertical: "2%",
     },
     amountText: {
         fontSize: fonts.h1,

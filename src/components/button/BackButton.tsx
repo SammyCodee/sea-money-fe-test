@@ -1,5 +1,8 @@
 import React from "react";
-import { TouchableOpacity, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { color } from "../../color/color";
+import { fonts, iconButton, iconSize } from "../../utils/dimensions";
 
 type BackButtonProps = {
     handleOnPress: () => void;
@@ -7,9 +10,22 @@ type BackButtonProps = {
 const BackButton = ({ handleOnPress }: BackButtonProps) => {
     return (
         <TouchableOpacity onPress={handleOnPress}>
-            <Text>BackButton</Text>
+            <View style={styles.container}>
+                <MaterialIcons
+                    name="arrow-back-ios"
+                    style={{
+                        fontSize: iconSize.fontSize,
+                        color: color.textColor,
+                    }}
+                />
+            </View>
         </TouchableOpacity>
     );
 };
-
+const styles = StyleSheet.create({
+    container: {
+        height: iconButton.height,
+        width: iconButton.width,
+    },
+});
 export default BackButton;

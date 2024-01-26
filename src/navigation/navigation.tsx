@@ -14,7 +14,7 @@ export type HomeScreenStackingList = {
     HistoryScreen: undefined;
     TransactionDetailScreen: TransactionProps;
 };
-1;
+
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const HomeStack = createNativeStackNavigator<HomeScreenStackingList>();
 
