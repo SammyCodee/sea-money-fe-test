@@ -5,8 +5,7 @@ export interface Login {
     loading: boolean,
     userInfo: {},
     userToken: string | null,
-    error: boolean | null,
-    success: boolean,
+    isSuccess: boolean,
     isAuthenticate: boolean
 }
 
@@ -14,11 +13,9 @@ const initialState: Login = {
         loading: false,
         userInfo: {}, // for user object
         userToken: null, // for storing the JWT
-        error: null,
-        success: false, // for monitoring the registration process.
+        isSuccess: true, // for monitoring the registration process.
         isAuthenticate: false
     }
-
 
 export const authSlice = createSlice({
     name: "login",
@@ -28,8 +25,7 @@ export const authSlice = createSlice({
         state.loading = action.payload.loading
         state.userInfo = action.payload.userInfo
         state.userToken = action.payload.userToken
-        state.error = action.payload.error
-        state.success = action.payload.success
+        state.isSuccess = action.payload.isSuccess
         state.isAuthenticate = action.payload.isAuthenticate;
       },
     },

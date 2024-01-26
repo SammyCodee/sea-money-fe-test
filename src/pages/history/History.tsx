@@ -27,6 +27,7 @@ import IconButton from "../../components/button/IconButton";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import BackButton from "../../components/button/BackButton";
 import ReactNativeBiometrics, { BiometryTypes } from "react-native-biometrics";
+import Error from "../../components/error/Error";
 
 const History = () => {
     const navigation = useAppNavigation();
@@ -50,8 +51,7 @@ const History = () => {
             loading: false,
             userInfo: {},
             userToken: null,
-            error: null,
-            success: false,
+            isSuccess: true,
             isAuthenticate: true,
         };
         dispatch(authenticate(loginInfo));
@@ -72,13 +72,16 @@ const History = () => {
             <View style={styles.wrapper}>
                 <View style={styles.header}>
                     <BackButton handleOnPress={() => navigation.goBack()} />
-                    <TouchableOpacity>
-                        <Text
-                            style={styles.semiBoldText}
-                            onPress={() => login()}
-                        >
-                            Login
-                        </Text>
+                    <TouchableOpacity onPress={() => login()}>
+                        <MaterialIcons
+                            name="login"
+                            style={{
+                                fontSize: iconSize.fontSize,
+                                color: color.textColor,
+                                marginHorizontal: "10%",
+                                alignSelf: "flex-end",
+                            }}
+                        />
                     </TouchableOpacity>
                 </View>
 
@@ -99,7 +102,7 @@ const History = () => {
                                     name="content-copy"
                                     style={{
                                         fontSize: iconSize.s_fontSize,
-                                        color: color.tertiaryColor,
+                                        color: color.textColor,
                                         marginHorizontal: "10%",
                                     }}
                                 />
@@ -113,57 +116,62 @@ const History = () => {
                     </View>
                     <View style={styles.bodyBottom}>
                         <View style={styles.transactionTitleHeader}>
-                            <Text style={styles.transactiontext}>
-                                Transactions
-                            </Text>
-
                             <TouchableOpacity>
                                 <MaterialIcons
                                     name="filter-alt"
                                     style={{
                                         fontSize: iconSize.fontSize,
-                                        color: color.tertiaryColor,
+                                        color: color.textColor,
                                     }}
                                 />
                             </TouchableOpacity>
+
+                            <Text style={styles.transactiontext}>
+                                Transactions
+                            </Text>
                         </View>
 
-                        <FlatList
-                            style={styles.flatListContainer}
-                            data={transactionList}
-                            refreshControl={
-                                <RefreshControl
-                                    tintColor={color.textColor} //for iOS only
-                                    // colors={[]} for android only
-                                    onRefresh={onRefresh}
-                                    refreshing={isRefreshing}
-                                />
-                            }
-                            renderItem={({ item }) => (
-                                <Transaction
-                                    amount={item.amount}
-                                    date={item.date}
-                                    description={item.description}
-                                    type={item.type}
-                                    transactionID={item.transactionID}
-                                    recipient={item.recipient}
-                                    onNavigate={() =>
-                                        navigation.navigate("Home", {
-                                            screen: "TransactionDetailScreen",
-                                            params: {
-                                                amount: item.amount,
-                                                date: item.date,
-                                                description: item.description,
-                                                type: item.type,
-                                                transactionID:
-                                                    item.transactionID,
-                                                recipient: item.recipient,
-                                            },
-                                        })
-                                    }
-                                />
-                            )}
-                        />
+                        {user?.isSuccess ? (
+                            <FlatList
+                                style={styles.flatListContainer}
+                                data={transactionList}
+                                refreshControl={
+                                    <RefreshControl
+                                        tintColor={color.textColor} //for iOS only
+                                        // colors={[]} for android only
+                                        onRefresh={onRefresh}
+                                        refreshing={isRefreshing}
+                                    />
+                                }
+                                renderItem={({ item }) => (
+                                    <Transaction
+                                        amount={item.amount}
+                                        date={item.date}
+                                        description={item.description}
+                                        type={item.type}
+                                        transactionID={item.transactionID}
+                                        recipient={item.recipient}
+                                        onNavigate={() =>
+                                            navigation.navigate("Home", {
+                                                screen: "TransactionDetailScreen",
+                                                params: {
+                                                    amount: item.amount,
+                                                    date: item.date,
+                                                    description:
+                                                        item.description,
+                                                    type: item.type,
+                                                    transactionID:
+                                                        item.transactionID,
+                                                    recipient: item.recipient,
+                                                },
+                                            })
+                                        }
+                                    />
+                                )}
+                            />
+                        ) : (
+                            <Error text="Network Error" />
+                        )}
                     </View>
                 </View>
             </View>
