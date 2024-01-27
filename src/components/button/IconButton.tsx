@@ -7,18 +7,26 @@ import { color } from "../../color/color";
 type IconButtonProps = {
     text: string;
     name: string;
+    handleOnPress?: () => void;
+    customStyle?: {};
 };
 
-const IconButton = ({ text, name }: IconButtonProps) => {
+const IconButton = ({
+    text,
+    name,
+    handleOnPress,
+    customStyle,
+}: IconButtonProps) => {
+    const defaultStyle = {
+        fontSize: iconSize.fontSize,
+        color: color.textColor,
+    };
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={handleOnPress}>
             <View style={styles.roundShape}>
                 <MaterialIcons
                     name={name}
-                    style={{
-                        fontSize: iconSize.fontSize,
-                        color: color.textColor,
-                    }}
+                    style={customStyle ? customStyle : defaultStyle}
                 />
             </View>
             {text && <Text style={styles.normalText}>{text}</Text>}

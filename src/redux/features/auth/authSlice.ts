@@ -3,7 +3,9 @@ import { RootState } from "../../store";
 
 export interface Login {
     loading: boolean,
-    userInfo: {},
+    userInfo: {
+      balance: number
+    },
     userToken: string | null,
     isSuccess: boolean,
     isAuthenticate: boolean
@@ -11,7 +13,9 @@ export interface Login {
 
 const initialState: Login = {
         loading: false,
-        userInfo: {}, // for user object
+        userInfo: {
+            balance: 345622.34
+        }, // for user object
         userToken: null, // for storing the JWT
         isSuccess: true, // for monitoring the registration process.
         isAuthenticate: false

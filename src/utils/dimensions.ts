@@ -7,7 +7,12 @@ export const sectionsSize = {
     padding: width <= 320 ? 15 : width <= 720 ? 20 : 25,
     header: 1,
     body: 8,
-    footer: 2
+    footer: 2,
+    borderRadius: width <= 320 ? 5 : width <= 720 ? 10 : 15,
+}
+
+export const serviceComponent = {
+    height: width <= 320 ? 80 : width <= 720 ? 100 : 120,
 }
 
 export const pageSize = {

@@ -39,6 +39,8 @@ const History = () => {
     const dispatch = useAppDispatch();
     const authUser = useAppSelector(authSelector);
 
+    const balance = authUser.userInfo.balance;
+
     const [user, setUser] = useState<Login>();
     const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -49,45 +51,47 @@ const History = () => {
         };
     }, [authUser]);
 
-    const optionalConfigObject = {
-        title: "Please Authenticate", // Android
-        imageColor: "#000", // Android
-        imageErrorColor: "#ff0000", // Android
-        sensorDescription: "Slightly Touch sensor", // Android
-        sensorErrorDescription: "Failed", // Android
-        cancelText: "Cancel", // Android
-        fallbackLabel: "Show Passcode", // iOS (if empty, then label is hidden)
-        unifiedErrors: false, // use unified error messages (default false)
-        passcodeFallback: false, // iOS
-    };
+    // const optionalConfigObject = {
+    //     title: "Please Authenticate", // Android
+    //     imageColor: "#000", // Android
+    //     imageErrorColor: "#ff0000", // Android
+    //     sensorDescription: "Slightly Touch sensor", // Android
+    //     sensorErrorDescription: "Failed", // Android
+    //     cancelText: "Cancel", // Android
+    //     fallbackLabel: "Show Passcode", // iOS (if empty, then label is hidden)
+    //     unifiedErrors: false, // use unified error messages (default false)
+    //     passcodeFallback: false, // iOS
+    // };
 
     const login = () => {
-        TouchID.isSupported().then((biometryType) => {
-            if (biometryType === "FaceID") {
-                TouchID.authenticate("", optionalConfigObject)
-                    .then((success: any) => {
-                        /**
-                         * once success login, perform the dispatch(authenticate) here
-                         */
-                        console.log("success");
-                    })
-                    .catch((error: any) => {
-                        Alert.alert("Authentication Failed", error.message);
-                    });
-            } else {
-                TouchID.authenticate("", optionalConfigObject)
-                    .then((success: any) => {
-                        console.log("success");
-                    })
-                    .catch((error: any) => {
-                        Alert.alert("Authentication Failed", error.message);
-                    });
-            }
-        });
+        // TouchID.isSupported().then((biometryType) => {
+        //     if (biometryType === "FaceID") {
+        //         TouchID.authenticate("", optionalConfigObject)
+        //             .then((success: any) => {
+        //                 /**
+        //                  * once success login, perform the dispatch(authenticate) here
+        //                  */
+        //                 console.log("success");
+        //             })
+        //             .catch((error: any) => {
+        //                 Alert.alert("Authentication Failed", error.message);
+        //             });
+        //     } else {
+        //         TouchID.authenticate("", optionalConfigObject)
+        //             .then((success: any) => {
+        //                 console.log("success");
+        //             })
+        //             .catch((error: any) => {
+        //                 Alert.alert("Authentication Failed", error.message);
+        //             });
+        //     }
+        // });
 
         const loginInfo = {
             loading: false,
-            userInfo: {},
+            userInfo: {
+                balance: 345622.34,
+            },
             userToken: null,
             isSuccess: true,
             isAuthenticate: true,
@@ -104,26 +108,6 @@ const History = () => {
         }, 2000);
     };
 
-    useEffect(() => {
-        Alert.alert(
-            "Login",
-            "To View The Balance",
-            [
-                {
-                    text: "OK",
-                    // onPress: () => Alert.alert("Cancel Pressed"),
-                    style: "cancel",
-                },
-            ],
-            {
-                cancelable: true,
-                onDismiss: () =>
-                    Alert.alert(
-                        "This alert was dismissed by tapping outside of the alert dialog."
-                    ),
-            }
-        );
-    }, []);
     return (
         <View style={styles.container}>
             <View style={styles.wrapper}>
@@ -146,7 +130,7 @@ const History = () => {
                     <View style={styles.bodyTop}>
                         <Text style={styles.semiBoldText}>Balance</Text>
                         <Text style={styles.balanceText}>
-                            RM {user?.isAuthenticate ? "345341.86" : "****"}
+                            RM {user?.isAuthenticate ? balance : "****"}
                         </Text>
                         <View style={styles.accountNoContainer}>
                             <Text style={styles.normalText}>
@@ -168,7 +152,15 @@ const History = () => {
                     </View>
                     <View style={styles.bodyMiddle}>
                         <IconButton text={"Add"} name={"add"} />
-                        <IconButton text={"Send"} name={"send"} />
+                        <IconButton
+                            text={"Send"}
+                            name={"send"}
+                            customStyle={{
+                                fontSize: iconSize.fontSize,
+                                color: color.textColor,
+                                transform: [{ rotate: "-30deg" }],
+                            }}
+                        />
                         <IconButton text={"More"} name={"more-horiz"} />
                     </View>
                     <View style={styles.bodyBottom}>
