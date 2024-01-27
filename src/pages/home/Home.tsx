@@ -8,6 +8,7 @@ import {
 import { useAppNavigation } from "../../utils/useAppNavigation";
 import {
     fonts,
+    iconSize,
     pageSize,
     sectionsSize,
     serviceComponent,
@@ -15,6 +16,7 @@ import {
 import { color } from "../../color/color";
 import IconButton from "../../components/button/IconButton";
 import { Alert } from "react-native";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const Home = () => {
     const navigation = useAppNavigation();
@@ -101,10 +103,22 @@ const Home = () => {
                             Available Balance
                         </Text>
                         <Text style={styles.balanceText}>
-                            RM {balance.toFixed(2)}
+                            {authUser.isAuthenticate
+                                ? `RM ${balance.toFixed(2)}`
+                                : "****"}
                         </Text>
                     </View>
-                    <View style={styles.headerRight}></View>
+                    <View style={styles.headerRight}>
+                        <TouchableOpacity onPress={() => login()}>
+                            <MaterialIcons
+                                name="account-circle"
+                                style={{
+                                    fontSize: iconSize.l_fontSize,
+                                    color: color.textColor,
+                                }}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <View style={styles.body}>
                     <View style={styles.serviceContainer}>
@@ -161,6 +175,7 @@ const styles = StyleSheet.create({
     },
     headerRight: {
         flex: 1,
+        alignItems: "flex-end",
     },
     body: {
         width: "100%",

@@ -115,11 +115,10 @@ const History = () => {
                     <BackButton handleOnPress={() => navigation.goBack()} />
                     <TouchableOpacity onPress={() => login()}>
                         <MaterialIcons
-                            name="login"
+                            name="account-circle"
                             style={{
-                                fontSize: iconSize.fontSize,
+                                fontSize: iconSize.l_fontSize,
                                 color: color.textColor,
-                                marginHorizontal: "10%",
                                 alignSelf: "flex-end",
                             }}
                         />
