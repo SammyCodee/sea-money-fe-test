@@ -1,32 +1,33 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { fonts, iconButton, iconSize } from "../../utils/dimensions";
+import {
+    fonts,
+    iconButton,
+    iconSize,
+    sectionsSize,
+} from "../../utils/dimensions";
 import { color } from "../../color/color";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 type IconButtonProps = {
     text: string;
     name: string;
     handleOnPress?: () => void;
-    customStyle?: {};
+    customIconStyle?: {};
 };
 
 const IconButton = ({
     text,
     name,
     handleOnPress,
-    customStyle,
+    customIconStyle,
 }: IconButtonProps) => {
-    const defaultStyle = {
-        fontSize: iconSize.fontSize,
-        color: color.textColor,
-    };
     return (
         <TouchableOpacity style={styles.container} onPress={handleOnPress}>
             <View style={styles.roundShape}>
                 <MaterialIcons
                     name={name}
-                    style={customStyle ? customStyle : defaultStyle}
+                    style={[styles.icon, customIconStyle]}
                 />
             </View>
             {text && <Text style={styles.normalText}>{text}</Text>}
@@ -44,13 +45,18 @@ const styles = StyleSheet.create({
         width: iconButton.width,
         borderRadius: iconButton.borderRadius,
         backgroundColor: color.tertiaryColor,
-        marginBottom: "5%",
+        marginBottom: sectionsSize.marginBottom,
         justifyContent: "center",
         alignItems: "center",
+    },
+    icon: {
+        fontSize: iconSize.fontSize,
+        color: color.textColor,
     },
     normalText: {
         fontSize: fonts.h3,
         color: color.textColor,
+        fontWeight: "400",
     },
 });
 export default IconButton;

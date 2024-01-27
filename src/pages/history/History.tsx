@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
-    Alert,
-    FlatList,
+    Animated,
     RefreshControl,
     StyleSheet,
     Text,
@@ -9,9 +8,11 @@ import {
     View,
 } from "react-native";
 import {
+    animationSize,
     fonts,
     iconSize,
     pageSize,
+    shadow,
     transactionComponent,
 } from "../../utils/dimensions";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
@@ -30,6 +31,8 @@ import BackButton from "../../components/button/BackButton";
 import TouchID from "react-native-touch-id";
 import Error from "../../components/error/Error";
 
+const SPACING = 20;
+const INDEX_SIZE = animationSize.indexSize + SPACING * 3;
 const History = () => {
     const navigation = useAppNavigation();
 
@@ -108,6 +111,8 @@ const History = () => {
         }, 2000);
     };
 
+    const scrollY = useRef(new Animated.Value(0)).current;
+
     return (
         <View style={styles.container}>
             <View style={styles.wrapper}>
@@ -126,7 +131,7 @@ const History = () => {
                 </View>
 
                 <View style={styles.body}>
-                    <View style={styles.bodyTop}>
+                    <View style={styles.infoContainer}>
                         <Text style={styles.semiBoldText}>Balance</Text>
                         <Text style={styles.balanceText}>
                             RM {user?.isAuthenticate ? balance : "****"}
@@ -149,12 +154,12 @@ const History = () => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={styles.bodyMiddle}>
+                    <View style={styles.serviceContainer}>
                         <IconButton text={"Add"} name={"add"} />
                         <IconButton
                             text={"Send"}
                             name={"send"}
-                            customStyle={{
+                            customIconStyle={{
                                 fontSize: iconSize.fontSize,
                                 color: color.textColor,
                                 transform: [{ rotate: "-30deg" }],
@@ -162,7 +167,7 @@ const History = () => {
                         />
                         <IconButton text={"More"} name={"more-horiz"} />
                     </View>
-                    <View style={styles.bodyBottom}>
+                    <View style={styles.transactionContainer}>
                         <View style={styles.transactionTitleHeader}>
                             <Text style={styles.transactiontext}>
                                 Transactions
@@ -179,8 +184,20 @@ const History = () => {
                         </View>
 
                         {user?.isSuccess ? (
-                            <FlatList
+                            <Animated.FlatList
                                 style={styles.flatListContainer}
+                                onScroll={Animated.event(
+                                    [
+                                        {
+                                            nativeEvent: {
+                                                contentOffset: {
+                                                    y: scrollY,
+                                                },
+                                            },
+                                        },
+                                    ],
+                                    { useNativeDriver: true }
+                                )}
                                 data={transactionList}
                                 refreshControl={
                                     <RefreshControl
@@ -190,7 +207,31 @@ const History = () => {
                                         refreshing={isRefreshing}
                                     />
                                 }
-                                renderItem={({ item }) => {
+                                renderItem={({ item, index }) => {
+                                    const inputRange = [
+                                        -1,
+                                        0,
+                                        INDEX_SIZE * index, //animation starts
+                                        INDEX_SIZE * (index + 2), //animation ends
+                                    ];
+
+                                    const opacityInputRange = [
+                                        -1,
+                                        0,
+                                        INDEX_SIZE * index, //animation starts
+                                        INDEX_SIZE * (index + 1), //animation ends
+                                    ];
+
+                                    const scale = scrollY.interpolate({
+                                        inputRange,
+                                        outputRange: [1, 1, 1, 0],
+                                    });
+
+                                    const opacity = scrollY.interpolate({
+                                        inputRange: opacityInputRange,
+                                        outputRange: [1, 1, 1, 0],
+                                    });
+
                                     return (
                                         <Transaction
                                             amount={item.amount}
@@ -219,6 +260,10 @@ const History = () => {
                                                     },
                                                 })
                                             }
+                                            customStyle={{
+                                                transform: [{ scale }],
+                                                opacity,
+                                            }}
                                         />
                                     );
                                 }}
@@ -253,7 +298,7 @@ const styles = StyleSheet.create({
         width: "100%",
         flex: pageSize.body,
     },
-    bodyTop: {
+    infoContainer: {
         flex: 1,
         justifyContent: "center",
     },
@@ -281,7 +326,7 @@ const styles = StyleSheet.create({
         fontSize: fonts.h3,
         color: color.textColor,
     },
-    bodyMiddle: {
+    serviceContainer: {
         flex: 1,
         justifyContent: "space-evenly",
         flexDirection: "row",
@@ -289,7 +334,7 @@ const styles = StyleSheet.create({
         backgroundColor: color.primaryColor,
         borderRadius: transactionComponent.borderRadius,
     },
-    bodyBottom: {
+    transactionContainer: {
         flex: 3,
     },
     transactionTitleHeader: {

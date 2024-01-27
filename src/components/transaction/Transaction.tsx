@@ -1,6 +1,12 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { fonts, transactionComponent } from "../../utils/dimensions";
+import {
+    View,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    Animated,
+} from "react-native";
+import { fonts, shadow, transactionComponent } from "../../utils/dimensions";
 import { color } from "../../color/color";
 import { useAppSelector } from "../../redux/hooks";
 
@@ -12,6 +18,7 @@ export type TransactionProps = {
     onNavigate?: () => void;
     transactionID: string;
     recipient: string;
+    customStyle?: {};
 };
 const Transaction = ({
     amount,
@@ -19,11 +26,13 @@ const Transaction = ({
     description,
     type,
     onNavigate,
+    customStyle,
 }: TransactionProps) => {
     const { isAuthenticate } = useAppSelector((state) => state.authSlice);
+
     return (
         <TouchableOpacity onPress={onNavigate}>
-            <View style={styles.container}>
+            <Animated.View style={[styles.container, customStyle]}>
                 <View style={styles.left}>
                     <Text style={styles.normalText} numberOfLines={1}>
                         {description}
@@ -36,7 +45,7 @@ const Transaction = ({
                     </Text>
                     <Text style={styles.typeText}>{type}</Text>
                 </View>
-            </View>
+            </Animated.View>
         </TouchableOpacity>
     );
 };
@@ -51,6 +60,13 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row",
         padding: transactionComponent.padding,
+        shadowColor: color.tertiaryColor,
+        shadowOffset: {
+            width: 0,
+            height: shadow.height,
+        },
+        shadowOpacity: shadow.opacity,
+        shadowRadius: shadow.borderRadius,
     },
     left: { flex: 1, justifyContent: "center" },
     right: { flex: 1, justifyContent: "center" },

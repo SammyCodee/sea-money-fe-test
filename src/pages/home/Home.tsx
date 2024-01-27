@@ -185,6 +185,7 @@ const styles = StyleSheet.create({
     serviceContainer: {
         flex: 1,
         flexDirection: "row",
+        flexWrap: "wrap",
     },
     serviceItemContainer: {
         flex: 1,

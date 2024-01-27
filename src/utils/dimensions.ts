@@ -12,6 +12,7 @@ export const sectionsSize = {
     body: 8,
     footer: 2,
     borderRadius: width <= small ? 5 : width <= medium ? 10 : 15,
+    marginBottom: width <= small ? 5 : width <= medium ? 10 : 15,
 }
 
 export const serviceComponent = {
@@ -49,4 +50,14 @@ export const iconSize = {
     m_fontSize: width <= small ? 20 : width <= medium ? 28 : 36,
     l_fontSize: width <= small ? 24 : width <= medium ? 32 : 40,
     xl_fontSize: width <= small ? 28 : width <= medium ? 36 : 44,
+}
+
+export const shadow = {
+    borderRadius: width <= small ? 2 : width <= medium ? 4 : 6,
+    opacity: 0.5,
+    height: width <= small ? 4 : width <= medium ? 6 : 8,
+}
+
+export const animationSize = {
+    indexSize: width <= small ? 14 : width <= medium ? 22 : 30,
 }
