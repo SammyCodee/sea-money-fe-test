@@ -104,7 +104,26 @@ const History = () => {
         }, 2000);
     };
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        Alert.alert(
+            "Login",
+            "To View The Balance",
+            [
+                {
+                    text: "OK",
+                    // onPress: () => Alert.alert("Cancel Pressed"),
+                    style: "cancel",
+                },
+            ],
+            {
+                cancelable: true,
+                onDismiss: () =>
+                    Alert.alert(
+                        "This alert was dismissed by tapping outside of the alert dialog."
+                    ),
+            }
+        );
+    }, []);
     return (
         <View style={styles.container}>
             <View style={styles.wrapper}>

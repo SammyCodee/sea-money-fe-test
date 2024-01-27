@@ -1,7 +1,7 @@
 import { Home } from "../pages/home";
 import { History } from "../pages/history";
 import { NavigatorScreenParams } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import Detail from "../pages/history/Detail";
 import { TransactionProps } from "../components/transaction/Transaction";
 
@@ -10,13 +10,13 @@ export type RootStackParamList = {
 };
 
 export type HomeScreenStackingList = {
-    HomeScreen: undefined;
+    HomeScreen: undefined; // undefined because you aren't passing any params
     HistoryScreen: undefined;
     TransactionDetailScreen: TransactionProps;
 };
 
-const RootStack = createNativeStackNavigator<RootStackParamList>();
-const HomeStack = createNativeStackNavigator<HomeScreenStackingList>();
+const RootStack = createStackNavigator<RootStackParamList>();
+const HomeStack = createStackNavigator<HomeScreenStackingList>();
 
 const HomeNavigator = () => {
     return (
